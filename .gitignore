@@ -1,0 +1,19 @@
+# ============ 微博登录凭证（运行 playwright_login.py 后生成，= 账号钥匙）============
+cookie.txt
+cookie_mobile.txt
+
+# ============ 爬取数据（含真实用户信息）============
+*.csv
+*.json
+city_output/
+search_output/
+post_output/
+group_output/
+
+# ============ 浏览器用户数据 ============
+chrome_weibo_profile/
+
+# ============ 缓存 ============
+__pycache__/
+*.pyc
+.DS_Store

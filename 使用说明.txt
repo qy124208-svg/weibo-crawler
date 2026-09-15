@@ -1,0 +1,97 @@
+========================================
+  微博城市用户采集工具 v4.2 — 使用说明
+========================================
+
+
+【环境要求】
+
+  - Python 3.8+（安装时勾选"Add to PATH"）
+    https://www.python.org/downloads/
+  - 任意现代浏览器（Edge / Chrome / Firefox 均可，系统默认即可）
+
+
+【首次使用：四条命令】
+
+  在本文件夹的 PowerShell 中，依次执行：
+
+  1. pip install -r requirements.txt
+  2. playwright install chromium
+  3. python playwright_login.py
+        → Chrome 弹出 → 扫码登录 m.weibo.cn
+        → 等待打印"登录成功(MLOGIN=1)！"
+  4. python weibo_city_crawl_gui.py
+
+
+【之后每次使用】
+
+  只需一条命令：
+
+  python weibo_city_crawl_gui.py
+
+
+【命令行版本】
+
+  不需要GUI时，可直接运行：
+
+  python weibo_city_crawl.py
+
+  自动串行执行：搜索 → 社交扩散 → 2015微博采集
+
+
+【界面说明】
+
+  ① 搜索+验证    → 关键词搜索用户并验证所在地
+  ② 社交扩散      → 从已确认用户的关注列表扩展同城用户
+  ③ 2015微博采集  → 采集用户2015年的微博内容（纯requests，高稳定）
+
+  建议设置：
+    每城目标：10000
+    请求间隔：3-5 秒
+    搜索线程：5（普通网络） / 3（网络不稳定）
+
+
+【v4.2 新特性】
+
+  - 纯requests架构，采集期间零Playwright调用
+  - 注册时间预过滤，秒级跳过30-40%无效用户
+  - 静默跳过诊断日志，每个跳过原因可追溯
+  - ok=0隐私账号正确处理，不中断正常扫描
+  - 验证码自适应降速（2.5s → 4-6s）
+  - 12条反爬经验沉淀，500+用户零验证码实测
+
+
+【文件说明】
+
+  weibo_city_crawl.py         核心引擎 v4.2
+  weibo_city_crawl_gui.py     GUI界面 v3.1
+  playwright_login.py         扫码登录工具
+  refresh_cookie.py           后台自动刷新Cookie
+  collect_2015_browser.py     浏览器备选采集方案
+  social_expand.py            社交扩散（Playwright）
+  get_cookie.py               Chrome本地Cookie读取
+  auto_cdp_refresh.py         CDP自动刷新
+  refresh_cookie_cdp.py       CDP方式刷新
+  migrate_data.py             数据迁移工具
+  cookie.txt / cookie_mobile.txt   Cookie模板
+
+
+【常见问题】
+
+  Q: pip 找不到？
+  A: 用 python -m pip install -r requirements.txt
+
+  Q: Cookie 过期？
+  A: 执行 python playwright_login.py 重新扫码
+
+  Q: 触发验证码？
+  A: 系统浏览器会自动弹出验证页面，完成滑块后
+     回到GUI点"恢复"按钮即可继续采集
+
+  Q: 数据显示乱码？
+  A: CSV 是 UTF-8 编码，Excel 打开时选
+     "数据 → 从文本/CSV 导入 → UTF-8"
+
+  Q: 2015微博采集很慢？
+  A: 这是正常的反爬保护。每个用户需要2.5-3.5秒
+     请求间隔，10000个用户预计需要8-12小时。
+     采集期间请勿打开微博网页版，以免触发验证码。
